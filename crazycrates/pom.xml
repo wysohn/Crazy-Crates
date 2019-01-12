@@ -113,7 +113,6 @@
                     </artifactSet>
                     <!--<finalName>${project.artifactId}[v${project.version}]</finalName>-->
                     <!--<outputFile>/Users/badbones/Desktop/Stuff/Server/plugins/${project.artifactId}[v${project.version}].jar</outputFile>-->
-                    <outputFile>/Users/badbones/Plugins/Public Plugins/Crazy Crates/${project.artifactId}[v${project.version}].jar</outputFile>
                 </configuration>
                 <executions>
                     <execution>

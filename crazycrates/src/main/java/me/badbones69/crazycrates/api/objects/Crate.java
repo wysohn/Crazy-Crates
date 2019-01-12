@@ -8,17 +8,20 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.serialization.ConfigurationSerializable;
+import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 public class Crate {
-	
 	private String name;
 	private ItemStack key;
 	private Integer maxPage = 1;
@@ -331,10 +334,21 @@ public class Crate {
 				items.add((ItemStack) list);
 			}
 		}
-		if(!file.contains(path + ".DisplayName")) file.set(path + ".DisplayName", "&7Auto Generated Prize #&6" + prize);
-		if(!file.contains(path + ".DisplayItem")) file.set(path + ".DisplayItem", "STAINED_GLASS_PANE:14");
-		if(!file.contains(path + ".DisplayAmount")) file.set(path + ".DisplayAmount", 1);
-		if(!file.contains(path + ".Lore")) file.set(path + ".Lore", new ArrayList<>());
+		
+		String displayName = item.getItemMeta().getDisplayName();
+		if(displayName == null) displayName = "&6"+prize;
+		List<String> lore = item.getItemMeta().getLore();
+		if(lore == null) lore = new ArrayList<>();
+		List<String> enchantments = new ArrayList<>();
+		item.getEnchantments().forEach((ench, level)->{
+			enchantments.add(ench+":"+level);
+		});
+		
+		if(!file.contains(path + ".DisplayName")) file.set(path + ".DisplayName", displayName);
+		if(!file.contains(path + ".DisplayItem")) file.set(path + ".DisplayItem", item.getType().name()+":"+item.getData().getData());
+		if(!file.contains(path + ".DisplayAmount")) file.set(path + ".DisplayAmount", item.getAmount());
+		if(!file.contains(path + ".Lore")) file.set(path + ".Lore", lore);
+		if(!file.contains(path + ".DisplayEnchantments")) file.set(path + ".DisplayEnchantments", enchantments);
 		if(!file.contains(path + ".MaxRange")) file.set(path + ".MaxRange", 100);
 		if(!file.contains(path + ".Chance")) file.set(path + ".Chance", 50);
 		if(!file.contains(path + ".Firework")) file.set(path + ".Firework", false);
@@ -426,5 +440,4 @@ public class Crate {
 			inv.setItem(50, Preview.getNextButton(player));
 		}
 	}
-	
 }
