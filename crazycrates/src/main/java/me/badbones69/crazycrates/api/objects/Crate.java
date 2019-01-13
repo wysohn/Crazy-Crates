@@ -341,7 +341,7 @@ public class Crate {
 		if(lore == null) lore = new ArrayList<>();
 		List<String> enchantments = new ArrayList<>();
 		item.getEnchantments().forEach((ench, level)->{
-			enchantments.add(ench+":"+level);
+			enchantments.add(ench.getName()+":"+level);
 		});
 		
 		if(!file.contains(path + ".DisplayName")) file.set(path + ".DisplayName", displayName);
